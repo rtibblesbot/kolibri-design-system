@@ -172,7 +172,7 @@
           delay: [0, 0],
           distance: 0,
           duration: this.animation === 'none' ? 0 : [250, 200],
-          hideOnClick: this.hideOnClick,
+          hideOnClick: this.hideOnClick ? 'toggle' : false,
           ignoreAttributes: true,
           interactive: true,
           lazy: true,
@@ -382,10 +382,19 @@
 
         // Add event listeners in the next tick, otherwise they're triggered immediately
         this.addListenersTimeout = setTimeout(() => {
-          /* eslint-disable-next-line import/no-named-as-default-member */
-          this.removeExternalClickListener = events.on('click', document, e => {
-            this.closeOnExternal(e, { returnFocus: false });
-          });
+          const onExternalPointer = e => {
+            const isTriggerOwned = this.openOn === 'click' || e.type === 'contextmenu';
+            if (isTriggerOwned && this.triggerEl.contains(e.target)) {
+              return;
+            }
+            this.closeOnExternal(e);
+          };
+          const removePointerListeners = ['click', 'contextmenu', 'dragstart'].map(name =>
+            /* eslint-disable-next-line import/no-named-as-default-member */
+            events.on(name, document, onExternalPointer, { capture: true }),
+          );
+          this.removeExternalClickListener = () =>
+            removePointerListeners.forEach(remove => remove());
 
           /* eslint-disable-next-line import/no-named-as-default-member */
           this.removeEscListener = events.onKeydown(27, document, () => {
