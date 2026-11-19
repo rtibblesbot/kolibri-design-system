@@ -372,6 +372,11 @@
         if ($coreSnackbar && $coreSnackbar.contains(target)) {
           return;
         }
+        const popper =
+          target.closest && target.closest('.ui-popover') && target.closest('.tippy-popper');
+        if (popper && popper._tippy && this.$refs.modal.contains(popper._tippy.reference)) {
+          return;
+        }
         // focus has escaped the modal - put it back!
         if (!this.$refs.modal.contains(target)) {
           this.$nextTick(() => {
