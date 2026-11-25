@@ -18,3 +18,7 @@ export const testAfterResize = testFunction => {
   };
   animationFrameId = requestAnimationFrame(assertAfterResize);
 };
+
+export const flushMutationObservers = () => new Promise(resolve => setTimeout(resolve));
+
+export const isHiddenFromAT = el => Boolean(el.closest('[aria-hidden="true"]'));
