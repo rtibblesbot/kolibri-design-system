@@ -19,6 +19,7 @@
           role="dialog"
           aria-modal="true"
           :aria-labelledby="`modal-title-${_uid}`"
+          @keydown.esc.capture="escapePending = false"
           @keydown.esc="handleEscapeKeydown"
           @keyup.esc.stop="handleEscapeKeyup"
           @keyup.enter="handleEnter"
@@ -369,13 +370,13 @@
         }
       },
       handleEscapeKeydown(event) {
-        this.escapeHandled = event.defaultPrevented || this.isFromPopover(event);
+        this.escapePending = !this.isFromPopover(event);
       },
       handleEscapeKeyup() {
-        if (!this.escapeHandled) {
+        if (this.escapePending) {
           this.emitCancelEvent();
         }
-        this.escapeHandled = false;
+        this.escapePending = false;
       },
       openModal() {
         hideBackground(this.$refs.focusTrap.$el, this.$refs['modal-overlay'], this);

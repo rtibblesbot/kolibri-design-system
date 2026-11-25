@@ -358,6 +358,7 @@
           case 'Escape':
             if (props.expanded || !isOpen.value) break;
             event.preventDefault();
+            event.stopPropagation();
             closeDropdown();
             inputRef.value?.focus();
             break;

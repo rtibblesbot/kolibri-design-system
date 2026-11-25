@@ -86,8 +86,8 @@
         <code>KModal</code> never closes itself. Pressing <code>Escape</code> or the cancel button
         emits <code>cancel</code>; the parent closes the modal in its <code>cancel</code> handler.
         <code>Escape</code> that closes an open dropdown or menu inside the modal, or whose
-        <code>keydown</code> is <code>preventDefault</code>ed, does not emit <code>cancel</code>. To
-        make a modal non-dismissible, omit both the <code>cancel</code> listener and
+        <code>keydown</code> propagation is stopped, does not emit <code>cancel</code>. To make a
+        modal non-dismissible, omit both the <code>cancel</code> listener and
         <code>cancelText</code>.
       </p>
     </DocsPageSection>

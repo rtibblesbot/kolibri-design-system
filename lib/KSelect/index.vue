@@ -90,7 +90,11 @@
           <!-- Trick to stop keyboard events being propagated -->
           <span
             v-else
-            @keydown.stop
+            @keydown.enter.stop
+            @keydown.space.stop
+            @keydown.up.stop
+            @keydown.down.stop
+            @keydown.tab.stop
           >
             <KIconButton
               size="small"
@@ -824,6 +828,7 @@
       onEscape(event) {
         if (this.isDropdownOpen) {
           event.preventDefault();
+          event.stopPropagation();
           this.closeDropdown();
         }
       },
